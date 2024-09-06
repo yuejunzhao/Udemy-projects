@@ -34,6 +34,7 @@ app.post("/register", async (req, res) => {
   const password = req.body.password;
 
   try {
+    // 检查是否输入过相同邮箱
     const checkResult = await db.query("SELECT * FROM users WHERE email = $1", [
       email,
     ]);
@@ -61,6 +62,7 @@ app.post("/login", async (req, res) => {
     const result = await db.query("SELECT * FROM users WHERE email = $1", [
       email,
     ]);
+    // 如果此用户已经注册过
     if (result.rows.length > 0) {
       const user = result.rows[0];
       const storedPassword = user.password;
